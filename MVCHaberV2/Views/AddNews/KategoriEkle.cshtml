@@ -1,0 +1,40 @@
+﻿@using MVCHaberV2.Models
+@model MVCHaberV2.Models.Kategori
+@{
+    ViewBag.Title = "KategoriEkle";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<h2>KategoriEkle</h2>
+
+@using (Html.BeginForm("KategoriEkle", "AddNews", FormMethod.Post))
+{
+<div class="container">
+    <form class="form-horizontal" role="form">
+        <div class="form-group row">
+            <label class="control-label col-sm-3 offset-1">Kategori Adı Giriniz:</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(k => k.KategoriAdi, new { @class = "form-control", autofocus = true })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class=" offset-4 col-sm-10">
+                <input type="submit" class="btn btn-primary" value="Ekle" />
+            </div>
+        </div>
+    </form>
+</div>
+}
+@if(ViewBag.Sonuc != null)
+{
+    <div class="container">
+        <p class="alert alert-success col-sm-5">@ViewBag.Sonuc</p>
+    </div>
+    
+}
+@if (ViewBag.Hata != null) 
+{
+    <div class="container">
+        <p class="alert alert-danger col-sm-5">@ViewBag.Hata</p>
+    </div>
+}

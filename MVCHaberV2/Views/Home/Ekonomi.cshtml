@@ -1,0 +1,79 @@
+﻿@model MVCHaberV2.Models.IndexModel
+
+@{
+    ViewBag.Title = "Ekonomi";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<style>
+    hr{
+        border:0px;
+        margin:1.35em auto;
+        max-width:100%;
+        background-position:50%;
+        box-sizing:border-box;
+    }
+    .pill{
+        height:0px;
+        border-radius:2px;
+        border:2px solid currentColor;
+        width:100%;
+    }
+</style>
+
+<h2>Ekonomi Haberleri</h2>
+
+@foreach(var item in Model.IMHaberler)
+{
+    <div class="container">
+        <div class="card card-body mb-3">
+            <div class="media d-block d-md-flex">
+                <img class="d-flex avatar-2 mb-md-0 mx-auto" src="/Images/KullaniciResimleri/@item.HaberResim" width="200" height="200"/>
+                <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                    <h5 class="mt-0 font-weight-bold">@item.Baslik</h5>
+                    <p>@item.Detay</p>
+                    <hr class="pill" />
+
+                    @using (Html.BeginForm("YorumEkle", "Home"))
+                    {
+                        <div class="container">
+                            <h5 class="mt-0 font-weight-bold">Yorum Yap</h5>
+                            <div class="form-group row">
+                                <label class="control-label col-sm-3">Yorumunuzu Yazınız:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="yorum" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="hidden" name="SecKategori" value="@item.KategorininAdi" />
+                                    <input type="hidden" name="Id" value="@item.Id" />
+                                    <input type="submit" class="btn btn-success" value="Yorum ekle" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="pill" />
+                        <div class="container">
+                            <h5 class="mt-0 font-weight-bold">Yorumlar</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Yorum</td>
+                                        <td>Eklenme Tarihi</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var yorum in Model.IMYorumlar.Where(y => y.Haber_Id == item.Id).ToList())
+                                    {
+                                        <tr>
+                                            <th>@yorum.Icerik</th>
+                                            <th>@yorum.Tarih</th>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,51 @@
+﻿@model MVCHaberV2.Models.Haber
+
+@{
+    ViewBag.Title = "HaberGuncelle";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<style>
+    #custom{
+        width:335px;
+    }
+</style>
+
+<h2>HaberGuncelle</h2>
+@using (Html.BeginForm("HaberGuncelle", "AddNews", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <form class="form-horizontal" role="form" enctype="multipart/form-data">
+            @Html.HiddenFor(h => h.Id)
+            <div class="form-group row">
+                <label class="control-label col-sm-3">Haber Başlığını Giriniz:</label>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(h => h.Baslik, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-3">Haber Detayını Giriniz:</label>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(h => h.Detay, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-3">Haber Resmini Seçiniz:</label>
+                <div class="col-sm-5">
+                    <input type="file" name="HaberResim" accept="image/*" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-3">Haber Kategorisini Seçiniz:</label>
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(h => h.KategoriId, new SelectList(ViewBag.Kategoriler, "Id", "KategoriAdi"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-3">
+                    <input type="submit" class="btn btn-outline-primary" value="Kaydet" id="custom" />
+                </div>
+            </div>
+        </form>
+    </div>
+}

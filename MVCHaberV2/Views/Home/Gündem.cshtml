@@ -1,0 +1,179 @@
+﻿@using MVCHaberV2.Models
+@model IndexModel
+@{
+    /**/
+
+    ViewBag.Title = "Gündem";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<style>
+    hr {
+        border: 0;
+        margin: 1.35em auto;
+        max-width: 100%;
+        background-position: 50%;
+        box-sizing: border-box;
+    }
+
+    .pill {
+        height: 0px;
+        border-radius: 2px;
+        /*$color: teal;
+        color: $color;*/
+        border: 2px solid currentColor;
+        width: 100%;
+    }
+</style>
+
+<h2>Gündem Haberleri</h2>
+
+@foreach (var item in Model.IMHaberler)
+{
+    <div class="container">
+        <div class="card card-body mb-3">
+            <div class="media d-block d-md-flex">
+                <img class="d-flex avatar-2 mb-md-0 mb-3 mx-auto" src="/Images/KullaniciResimleri/@item.HaberResim" width="200" height="200" />
+                <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                    <h5 class="mt-0 font-weight-bold">@item.Baslik</h5>
+                    <p>@item.Detay</p>
+
+                    <hr class="pill" />
+
+                    @using (Html.BeginForm("YorumEkle", "Home"))
+                    {
+                        <div class="container">
+                            <h5 class="mt-0 font-weight-bold">Yorum Yap</h5>
+                            <div class="form-group row">
+                                <label class="control-label col-sm-3">Yorumunuzu Yazınız:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="yorum" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="hidden" name="SecKategori" value="@item.KategorininAdi" />
+                                    <input type="hidden" name="Id" value="@item.Id" />
+                                    <input type="submit" class="btn btn-success" value="Yorumu ekle" />
+                                    @*@Html.ActionLink("Yorumu ekle", "YorumEkle", "Home", new { id = item.Id }, new { @class = "btn btn-success", onclick = "return AreYouSureFunction(this);" })*@
+                                </div>
+                            </div>
+
+                            @*<div class="form-group row">
+                                    <div class="offset-3 col-sm-3">
+                                        <input type="hidden" name="Id" value="@item.Id" />
+                                        @Html.ActionLink("Yorumları Göster", "YorumlariGoster", "Home", new { id = item.Id }, new { @class = "btn btn-primary", data_toggle = "modal", data_target = "#yorumModal" })
+                                    </div>
+                                </div>*@
+                        </div>
+                        <hr class="pill" />
+
+                        <div class="container">
+                            <h5 class="mt-0 font-weight-bold">Yorumlar</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Yorum</td>
+                                        <td>Eklenme Tarihi</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var yorum in Model.IMYorumlar.Where(y => y.Haber_Id == item.Id).ToList())
+                                    {
+                                        <tr>
+                                            <th>@yorum.Icerik</th>
+                                            <th>@yorum.Tarih</th>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    @*&emsp;<button type="button" class="btn btn-success" id="id" data-toggle="modal" data-target="#yorumYapModal">Yorum yap</button>*@
+                    @*@Html.ActionLink("Yorum Yap", "YorumEkle", "Home", new { id = item.Id }, new { @class = "btn btn-success", data_toogle = "modal", data_target = "#yorumYapModel" })*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript">
+    function AreYouSureFunction(source) {
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                url.source,
+            }).done(function () {
+                alert("Item created!");
+            });
+            return false;
+        }
+        else {
+            return false;
+        }
+    }
+</script>*@
+
+@*<div class="modal fade" id="yorumModal" tabindex="-1" role="dialog" aria-labelledby="yorumModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="yorumModalLabel">Yorumlar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Yorum Numarası</th>
+                                <th>Yorumlar</th>
+                                <th>Eklenme Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var yorumlar in Model.IMYorumlar)
+                            {
+                                <tr>
+                                    <td>@yorumlar.Id</td>
+                                    <td>@yorumlar.Icerik</td>
+                                    <td>@yorumlar.Tarih</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*<div>
+        <div class="modal fade" id="yorumYapModal" tabindex="-1" role="dialog" aria-labelledby="yorumYapModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="yorumYapModalLabel">Yorum Yap</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" action="/Home/YorumEkle">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Yorumunuzu yazınız:</label>
+                                <input type="text" name="yorum" class="fonm-control" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            <button type="submit" class="btn btn-primary">Yorumu kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@
+

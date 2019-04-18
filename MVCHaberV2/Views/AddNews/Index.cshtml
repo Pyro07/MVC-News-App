@@ -1,0 +1,45 @@
+﻿@using MVCHaberV2.Models
+@model IndexModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<h2 class="offset-1">Eklenmiş Haberler</h2>
+
+<div class="container" style="width:1050px;background:#ebeff2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Başlık</th>
+                <th>Detay</th>
+                <th>Resim</th>
+                <th>Kategori</th>
+                <th>Haberi Sil</th>
+                <th>Haberi Güncelle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var haber in Model.IMHaberler)
+            {
+            <tr>
+                <td>@haber.Baslik</td>
+                <td>@haber.Detay</td>
+                <td><img src="/Images/KullaniciResimleri/@haber.HaberResim" width="100" height="100" /></td>
+                <td>@haber.KategorininAdi</td>
+                <td>@Html.ActionLink("Sil", "HaberSil", new { id = haber.Id }, new { @class = "btn btn-danger", onclick="return haberSilOnay()" })</td>
+                <td>@Html.ActionLink("Güncelle", "HaberGuncelle", new { id = haber.Id }, new { @class = "btn btn-success" })</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    function haberSilOnay() {
+        if (confirm("Seçtiğiniz haber silinecektir, onaylıyor musunuz?"))
+            true;
+        else
+            false;
+    }
+</script>
